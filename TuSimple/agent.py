@@ -346,10 +346,12 @@ class Agent(nn.Module):
     ## predict lanes in test
     #####################################################
     def predict_lanes_test(self, inputs):
-        inputs = torch.from_numpy(inputs).float() 
-        inputs = Variable(inputs).cuda()
+        inputs = torch.from_numpy(inputs).float()
+        if torch.cuda.is_available():
+            inputs = Variable(inputs).cuda()
+        else:
+            inputs = Variable(inputs)
         outputs, features = self.lane_detection_network(inputs)
-
         return outputs
 
     #####################################################
@@ -377,9 +379,14 @@ class Agent(nn.Module):
     ## Load save file
     #####################################################
     def load_weights(self, epoch, loss):
-        self.lane_detection_network.load_state_dict(
-            torch.load(self.p.model_path+str(epoch)+'_'+str(loss)+'_'+'lane_detection_network.pkl', map_location='cuda:0'), False
-        )
+        if torch.cuda.is_available():
+            self.lane_detection_network.load_state_dict(
+                torch.load(self.p.model_path+str(epoch)+'_'+str(loss)+'_'+'lane_detection_network.pkl', map_location='cuda:0'), False
+            )
+        else:
+            self.lane_detection_network.load_state_dict(
+                torch.load(self.p.model_path+str(epoch)+'_'+str(loss)+'_'+'lane_detection_network.pkl', map_location='cpu'), False
+            )
 
     #####################################################
     ## Save model

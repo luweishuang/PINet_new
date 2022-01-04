@@ -84,7 +84,8 @@ def Testing():
         cv2.destroyAllWindows()
 
     elif p.mode == 2: # check model with a picture
-        test_image = cv2.imread(p.test_root_url+"clips/0530/1492720840345996040_0/20.jpg")
+        # test_image = cv2.imread(p.test_root_url+"clips/0530/1492720840345996040_0/20.jpg")
+        test_image = cv2.imread("test_curves/000c698734a78dce648bdb0d26f24b4f.jpg")
         test_image = cv2.resize(test_image, (512,256))/255.0
         test_image = np.rollaxis(test_image, axis=2, start=0)
         _, _, ti = test(lane_agent, np.array([test_image]))
@@ -267,7 +268,8 @@ def save_result(result_data, fname):
 def test(lane_agent, test_images, thresh = p.threshold_point, index= -1):
 
     result = lane_agent.predict_lanes_test(test_images)
-    torch.cuda.synchronize()
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()
     confidences, offsets, instances = result[index]
     
     num_batch = len(test_images)

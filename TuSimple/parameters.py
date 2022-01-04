@@ -9,8 +9,8 @@ class Parameters():
     n_epoch = 1000
     l_rate = 0.00001
     weight_decay=1e-5
-    save_path = "savefile/"
-    model_path = "savefile/"
+    save_path = "models/"
+    model_path = "models/pretrained/"
     batch_size = 6
     x_size = 512
     y_size = 256

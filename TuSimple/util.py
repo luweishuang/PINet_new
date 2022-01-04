@@ -94,7 +94,6 @@ def draw_points(x, y, image):
             color_index = 12
         for index in range(len(i)):
             image = cv2.circle(image, (int(i[index]), int(j[index])), 5, p.color[color_index], -1)
-
     return image
 
 ###############################################################
@@ -168,7 +167,6 @@ def get_closest_upper_point(x, y, point, n):
 def sort_along_y(x, y):
     out_x = []
     out_y = []
-
     for i, j in zip(x, y):
         i = np.array(i)
         j = np.array(j)
@@ -176,7 +174,6 @@ def sort_along_y(x, y):
         ind = np.argsort(j, axis=0)
         out_x.append(np.take_along_axis(i, ind[::-1], axis=0).tolist())
         out_y.append(np.take_along_axis(j, ind[::-1], axis=0).tolist())
-    
     return out_x, out_y
 
 def sort_along_x(x, y):

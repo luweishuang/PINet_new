@@ -4,4 +4,6 @@ scikit-image
 tqdm
 pyyaml
 ujson
+visdom
+csaps
 scikit-learn

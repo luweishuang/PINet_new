@@ -269,21 +269,21 @@ class Agent(nn.Module):
         lane_detection_loss = lane_detection_loss + self.p.constant_beta*disc_loss + 0.00001*torch.sum(feature**2)
         lane_detection_loss = lane_detection_loss + self.p.constant_attention*attention_loss
 
-        print("######################################################################")
-        print("seg loss")
-        print("same instance loss: ", sisc_loss.data)
-        print("different instance loss: ", disc_loss.data)
-
-        print("point loss")
-        print("exist loss: ", exist_condidence_loss.data)
-        print("non-exit loss: ", nonexist_confidence_loss.data)
-        print("offset loss: ", offset_loss.data)
-
-        print("attention loss")
-        print("attention loss: ", attention_loss.data)
-
-        print("--------------------------------------------------------------------")
-        print("total loss: ", lane_detection_loss.data)
+        # print("#################### every batch #########################")
+        # print("seg loss")
+        # print("same instance loss: ", sisc_loss.data)
+        # print("different instance loss: ", disc_loss.data)
+        #
+        # print("point loss")
+        # print("exist loss: ", exist_condidence_loss.data)
+        # print("non-exit loss: ", nonexist_confidence_loss.data)
+        # print("offset loss: ", offset_loss.data)
+        #
+        # print("attention loss")
+        # print("attention loss: ", attention_loss.data)
+        #
+        # print("--------------------------------------------------------------------")
+        # print("total loss: ", lane_detection_loss.data)
 
         self.lane_detection_optim.zero_grad()
         lane_detection_loss.backward()   #divide by batch size

@@ -11,7 +11,7 @@ class Parameters():
     weight_decay=1e-5
     save_path = "models/"
     model_path = "models/pretrained/"
-    batch_size = 6
+    batch_size = 16
     x_size = 512
     y_size = 256
     resize_ratio = 8

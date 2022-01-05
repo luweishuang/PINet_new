@@ -73,12 +73,12 @@ def Training():
     step = 0
     sampling_list = None
     for epoch in range(p.n_epoch):
+        print("epoch : " + str(epoch))
         lane_agent.training_mode()
         for inputs, target_lanes, target_h, test_image, data_list in loader.Generate(sampling_list):
             #training
             #util.visualize_points(inputs[0], target_lanes[0], target_h[0])
-            print("epoch : " + str(epoch))
-            print("step : " + str(step))
+            # print("step : " + str(step))
             loss_p = lane_agent.train(inputs, target_lanes, target_h, epoch, lane_agent, data_list)
             torch.cuda.synchronize()
             loss_p = loss_p.cpu().data
@@ -91,6 +91,7 @@ def Training():
                     update='append')
                 
             if step%100 == 0:
+                print("step : " + str(step) + ", total loss: ", loss_p)
                 lane_agent.save_model(int(step/100), loss_p)
                 testing(lane_agent, test_image, step, loss_p)
             step += 1
@@ -124,13 +125,11 @@ def Training():
         if int(step)>700000:
             break
 
+
 def testing(lane_agent, test_image, step, loss):
     lane_agent.evaluate_mode()
-
     _, _, ti = test.test(lane_agent, np.array([test_image]))
-
     cv2.imwrite('test_result/result_'+str(step)+'_'+str(loss)+'.png', ti[0])
-
     lane_agent.training_mode()
 
     

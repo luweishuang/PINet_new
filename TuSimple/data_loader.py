@@ -80,7 +80,7 @@ class Generator(object):
                 self.train_data_two.append(jsonString)
 
         self.size_train = len(self.train_data_two) + len(self.train_data_three) + len(self.train_data_four) + len(self.train_data_five)
-        print(self.size_train)
+        print("self.size_train = ", self.size_train)
 
         # load test set
         self.test_data = []
@@ -94,7 +94,7 @@ class Generator(object):
                 self.test_data.append(jsonString)
 
         self.size_test = len(self.test_data)
-
+        print("self.size_test = ", self.size_test)
     #################################################################################################################
     ## Generate data as much as batchsize and augment data (filp, translation, rotation, gaussian noise, scaling)
     #################################################################################################################

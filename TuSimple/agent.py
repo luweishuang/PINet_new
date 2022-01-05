@@ -39,12 +39,12 @@ class Agent(nn.Module):
         self.current_epoch = 0
 
         self.hard_sampling = hard_sampling.hard_sampling()
+        print("model parameters: ", self.count_parameters(self.lane_detection_network))
 
-        print("model parameters: ")
-        print(self.count_parameters(self.lane_detection_network))
 
     def count_parameters(self, model):
-	    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+        return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
     def setup_optimizer(self):
         self.lane_detection_optim = torch.optim.Adam(self.lane_detection_network.parameters(),
@@ -55,7 +55,6 @@ class Agent(nn.Module):
     ## Make ground truth for key point estimation
     #####################################################
     def make_ground_truth_point(self, target_lanes, target_h):
-
         target_lanes, target_h = util.sort_batch_along_y(target_lanes, target_h)
 
         ground = np.zeros((len(target_lanes), 3, self.p.grid_y, self.p.grid_x))

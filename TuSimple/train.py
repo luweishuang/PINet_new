@@ -6,7 +6,7 @@
 
 import cv2
 import torch
-import visdom
+# import visdom
 #import sys
 #sys.path.append('/home/kym/research/autonomous_car_vision/lanedection/code/')
 import agent
@@ -33,13 +33,13 @@ def Training():
     ####################################################################
     print('Initializing hyper parameter')
 
-    vis = visdom.Visdom()
-    loss_window = vis.line(X=torch.zeros((1,)).cpu(),
-                           Y=torch.zeros((1)).cpu(),
-                           opts=dict(xlabel='epoch',
-                                     ylabel='Loss',
-                                     title='Training Loss',
-                                     legend=['Loss']))
+    # vis = visdom.Visdom()
+    # loss_window = vis.line(X=torch.zeros((1,)).cpu(),
+    #                        Y=torch.zeros((1)).cpu(),
+    #                        opts=dict(xlabel='epoch',
+    #                                  ylabel='Loss',
+    #                                  title='Training Loss',
+    #                                  legend=['Loss']))
     
     #########################################################################
     ## Get dataset
@@ -84,11 +84,12 @@ def Training():
             loss_p = loss_p.cpu().data
             
             if step%50 == 0:
-                vis.line(
-                    X=torch.ones((1, 1)).cpu() * int(step/50),
-                    Y=torch.Tensor([loss_p]).unsqueeze(0).cpu(),
-                    win=loss_window,
-                    update='append')
+                print("step : " + str(step) + ", total loss: ", loss_p)
+                # vis.line(
+                #     X=torch.ones((1, 1)).cpu() * int(step/50),
+                #     Y=torch.Tensor([loss_p]).unsqueeze(0).cpu(),
+                #     win=loss_window,
+                #     update='append')
                 
             if step%100 == 0:
                 print("step : " + str(step) + ", total loss: ", loss_p)

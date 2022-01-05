@@ -85,42 +85,14 @@ class Agent(nn.Module):
             temp = np.zeros((1, self.p.grid_y, self.p.grid_x))
             lane_cluster = 1
             for lane_index, lane in enumerate(batch):
-                previous_x_index = 0
-                previous_y_index = 0
                 for point_index, point in enumerate(lane):
                     if point > 0:
                         x_index = int(point/self.p.resize_ratio)
                         y_index = int(target_h[batch_index][lane_index][point_index]/self.p.resize_ratio)
                         temp[0][y_index][x_index] = lane_cluster
-                    if previous_x_index != 0 or previous_y_index != 0: #interpolation make more dense data
-                        temp_x = previous_x_index
-                        temp_y = previous_y_index
-                        while False:
-                            delta_x = 0
-                            delta_y = 0
-                            temp[0][temp_y][temp_x] = lane_cluster
-                            if temp_x < x_index:
-                                temp[0][temp_y][temp_x+1] = lane_cluster
-                                delta_x = 1
-                            elif temp_x > x_index:
-                                temp[0][temp_y][temp_x-1] = lane_cluster
-                                delta_x = -1
-                            if temp_y < y_index:
-                                temp[0][temp_y+1][temp_x] = lane_cluster
-                                delta_y = 1
-                            elif temp_y > y_index:
-                                temp[0][temp_y-1][temp_x] = lane_cluster
-                                delta_y = -1
-                            temp_x += delta_x
-                            temp_y += delta_y
-                            if temp_x == x_index and temp_y == y_index:
-                                break
-                    if point > 0:
-                        previous_x_index = x_index
-                        previous_y_index = y_index
                 lane_cluster += 1
 
-            for i in range(self.p.grid_y*self.p.grid_x): #make gt
+            for i in range(self.p.grid_y*self.p.grid_x):  # make gt
                 temp = temp[temp>-1]
                 gt_one = deepcopy(temp)
                 if temp[i]>0:
@@ -131,7 +103,6 @@ class Agent(nn.Module):
                         gt_one[temp!=temp[i]] = 2 #different instance, same class
                         gt_one[temp==0] = 3 #different instance, different class
                     ground[batch_index][0][i] += gt_one
-
         return ground
 
     #####################################################
@@ -171,8 +142,6 @@ class Agent(nn.Module):
         exist_condidence_loss = 0
         nonexist_confidence_loss = 0
         offset_loss = 0
-        x_offset_loss = 0
-        y_offset_loss = 0
         sisc_loss = 0
         disc_loss = 0
 
@@ -255,7 +224,6 @@ class Agent(nn.Module):
         
         for i in range(real_batch_size):
             target = torch.sum((attentions[-1][i].data)**2, dim=0).view(-1) 
-            #target = target/torch.max(target)
             target = m(target)
             for j in source:
                 s = torch.sum(j[i]**2, dim=0).view(-1)

@@ -1,4 +1,5 @@
 import cv2
+import os
 import torch
 import agent
 import numpy as np
@@ -21,12 +22,23 @@ def Demoing():
     lane_agent.evaluate_mode()
 
     # check model with a picture
-    test_image = cv2.imread("test_curves/000c698734a78dce648bdb0d26f24b4f.jpg")
-    test_image = cv2.resize(test_image, (512,256))/255.0
-    test_image = np.rollaxis(test_image, axis=2, start=0)
-    _, _, ti = test(lane_agent, np.array([test_image]))
-    cv2.imshow("test", ti[0])
-    cv2.waitKey(0)
+    # test_image = cv2.imread("test_curves/000c698734a78dce648bdb0d26f24b4f.jpg")
+    # test_image = cv2.resize(test_image, (512,256))/255.0
+    # test_image = np.rollaxis(test_image, axis=2, start=0)
+    # _, _, ti = test(lane_agent, np.array([test_image]))
+    # cv2.imshow("test", ti[0])
+    # cv2.waitKey(0)
+    imgs_dir = "../dataset/powerline/imgs"
+    imgs_save_dir = imgs_dir + "_rsts"
+    os.makedirs(imgs_save_dir, exist_ok=True)
+    for cur_f in os.listdir(imgs_dir):
+        cur_img = os.path.join(imgs_dir, cur_f)
+        cur_img_dst = os.path.join(imgs_save_dir, cur_f)
+        test_image = cv2.imread(cur_img)
+        test_image = cv2.resize(test_image, (512,256))/255.0
+        test_image = np.rollaxis(test_image, axis=2, start=0)
+        _, _, ti = test(lane_agent, np.array([test_image]))
+        cv2.imwrite(cur_img_dst, ti[0])
 
 
 ############################################################################

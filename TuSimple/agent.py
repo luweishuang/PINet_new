@@ -171,7 +171,7 @@ class Agent(nn.Module):
             #confidance = torch.sigmoid(confidance)
             confidance_gt = ground_truth_point[:, 0, :, :]
             confidance_gt = confidance_gt.view(real_batch_size, 1, self.p.grid_y, self.p.grid_x)
-            a = confidance_gt[0][confidance_gt[0]==1] - confidance[0][confidance_gt[0]==1]
+            # a = confidance_gt[0][confidance_gt[0]==1] - confidance[0][confidance_gt[0]==1]
             exist_condidence_loss =  exist_condidence_loss +\
 				torch.sum( (1-confidance[confidance_gt==1])**2 )/\
 				torch.sum(confidance_gt==1)

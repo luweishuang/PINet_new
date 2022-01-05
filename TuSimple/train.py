@@ -112,7 +112,7 @@ def Training():
 
             for idx in index:
                 print("compute score")
-                with open("/home/kym/Dropbox/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
+                with open("train_result/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
                     make_file.write( "epoch : " + str(epoch) + " loss : " + str(loss_p.cpu().data) )
                     make_file.write(evaluation.LaneEval.bench_one_submit("test_result_"+str(epoch)+"_"+str(idx)+".json", "test_label.json"))
                     make_file.write("\n")

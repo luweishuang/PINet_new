@@ -8,7 +8,7 @@
 import math
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 #from skimage.transform import rotate as rotate_
 import json
 import random
@@ -37,7 +37,6 @@ class Generator(object):
                     break
                 jsonString = json.loads(line)
                 self.train_data.append(jsonString)
-        
         random.shuffle(self.train_data)
 
         with open(self.p.train_root_url+'label_data_0531.json') as f:
@@ -47,7 +46,6 @@ class Generator(object):
                     break
                 jsonString = json.loads(line)
                 self.train_data.append(jsonString)
-
         random.shuffle(self.train_data)
 
         with open(self.p.train_root_url+'label_data_0601.json') as f:
@@ -57,7 +55,6 @@ class Generator(object):
                     break
                 jsonString = json.loads(line)
                 self.train_data.append(jsonString)
-
         random.shuffle(self.train_data)
 
         self.size_train = len(self.train_data)
@@ -72,9 +69,7 @@ class Generator(object):
                     break
                 jsonString = json.loads(line)
                 self.test_data.append(jsonString)
-
         #random.shuffle(self.test_data)
-
         self.size_test = len(self.test_data)
         print(self.size_test)
 
